@@ -1,0 +1,54 @@
+name: Backfill Net New Highs
+
+on:
+  workflow_dispatch: {}   # manual trigger only — run from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Net New Highs backfill
+        env:
+          NSE_CSV_PATH: ${{ github.workspace }}/data/NSE_Stocks.csv
+        run: python scripts/backfill_nnh.py
+
+      - name: Commit & push history file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Update local branch first
+          git fetch origin
+          git checkout main
+          git reset --hard origin/main
+
+          # Stage the generated file
+          git add data/net_new_highs_history.csv
+
+          # Exit if nothing changed
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          # Commit and push
+          git commit -m "chore: backfill Net New Highs history"
+          git push origin main
