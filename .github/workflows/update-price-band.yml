@@ -1,0 +1,120 @@
+name: Update Price Band Cache
+
+# Manually triggered from the Actions tab.
+#
+# How to use:
+#   1. Commit your day's raw NSE file into incoming/, e.g.:
+#        incoming/sec_list_03082026.csv
+#      git add incoming/sec_list_03082026.csv && git commit -m "raw band file" && git push
+#   2. Actions tab -> "Update Price Band Cache" -> "Run workflow"
+#   3. Enter the filename, choose whether to also run the full scan, and run.
+#   4. This updates data/market_cap_cache.csv (and dashboards, if you chose
+#      "run full scan too") and commits + pushes the result automatically.
+
+on:
+  workflow_dispatch:
+    inputs:
+      csv_filename:
+        description: "Filename inside incoming/ to process (e.g. sec_list_03082026.csv)"
+        required: true
+        type: string
+      run_full_scan:
+        description: "Also run the full scan (regenerates dashboards using this band data)?"
+        required: true
+        type: boolean
+        default: true
+
+jobs:
+  update-band-cache:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Verify input file exists
+        run: |
+          FILE="incoming/${{ inputs.csv_filename }}"
+          if [ ! -f "$FILE" ]; then
+            echo "::error::File not found: $FILE. Commit it into incoming/ first, then re-run this workflow."
+            exit 1
+          fi
+
+      - name: Update price band cache
+        run: python scripts/update_price_band_cache.py "incoming/${{ inputs.csv_filename }}"
+
+      - name: Run full scan (regenerate dashboards)
+        if: ${{ inputs.run_full_scan == 'true' }}
+        env:
+          NSE_CSV_PATH: ${{ github.workspace }}/data/NSE_Stocks.csv
+          SME_CSV_PATH: ${{ github.workspace }}/data/SME_Stocks.csv
+        run: python run.py
+
+      - name: Ensure .nojekyll exists
+        if: ${{ inputs.run_full_scan == 'true' }}
+        run: touch docs/.nojekyll
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if [ "${{ inputs.run_full_scan }}" = "true" ]; then
+            git add docs/ data/
+          else
+            git add data/market_cap_cache.csv
+          fi
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: price band update from ${{ inputs.csv_filename }}"
+          git push origin HEAD:main
+
+  deploy:
+    needs: update-band-cache
+    if: ${{ inputs.run_full_scan == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
