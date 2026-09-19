@@ -9,7 +9,7 @@
 // values (Supabase Dashboard → Project Settings → API).
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
+const SUPABASE_URL = "https://uhmckwjomglqikcmupsp.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVobWNrd2pvbWdscWlrY211cHNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk4MDU3NTYsImV4cCI6MjEwNTM4MTc1Nn0.g6rqxJGQlf96ht2GdvKv-pHuyCV-A7upUlsgGY-fnRc";
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
