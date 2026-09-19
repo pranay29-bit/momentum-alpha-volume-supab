@@ -41,7 +41,7 @@ jobs:
 
       - name: Run Momentum Alpha scan
         env:
-          NSE_CSV_PATH: ${{ github.workspace }}/data/NSE_Stocks.csv
+          NSE_CSV_PATH: ${{ github.workspace }}/data/NSE_stocks_test.csv
         run: python run.py
 
       - name: Ensure .nojekyll exists
