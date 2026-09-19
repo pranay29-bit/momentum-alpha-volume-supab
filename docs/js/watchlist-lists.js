@@ -25,7 +25,7 @@
 // query. All that's new is the `lists` array on that same doc, saying
 // which watchlist(s) the symbol belongs to.
 
-import { db, auth } from "./firebase.js";
+import { db, auth } from "./supabase.js";
 import {
   doc,
   setDoc,
@@ -38,7 +38,7 @@ import {
   arrayUnion,
   arrayRemove,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+} from "./supabase-compat.js";
 
 const LISTS_KEY = "wl_lists";
 const META_KEY = "wl_meta";
