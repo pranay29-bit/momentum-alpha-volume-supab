@@ -9,7 +9,7 @@
 //
 // See docs/js/watchlist-lists.js for the shared data-access layer.
 
-import { db, auth, login, logout, onAuthStateChanged } from "./firebase.js";
+import { db, auth, login, logout, onAuthStateChanged } from "./supabase.js";
 import {
   DEFAULT_LIST_ID,
   getLocalListsSorted,
