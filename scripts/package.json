@@ -1,0 +1,10 @@
+{
+  "name": "price-updater",
+  "private": true,
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}
