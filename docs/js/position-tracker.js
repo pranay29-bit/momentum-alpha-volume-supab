@@ -1,4 +1,4 @@
-import { db, auth, login, logout, onAuthStateChanged } from "./firebase.js";
+import { db, auth, login, logout, onAuthStateChanged } from "./supabase.js";
 import {
   ensureDefaultAccount,
   subscribeAccounts,
@@ -18,7 +18,7 @@ import {
   orderBy,
   onSnapshot,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+} from "./supabase-compat.js";
 
 // `allPositions` / `allBookedPositions` hold every position across every
 // account for this user (that's how Firestore gives them to us). `positions`
