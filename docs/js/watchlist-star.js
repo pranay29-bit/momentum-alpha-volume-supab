@@ -14,7 +14,7 @@
 // refreshes on a schedule, so a starred stock's current price keeps
 // updating live exactly like an Open Position.
 
-import { auth, onAuthStateChanged } from "./firebase.js";
+import { auth, onAuthStateChanged } from "./supabase.js";
 import {
   getLocalListsSorted,
   localSymbolLists,
@@ -132,16 +132,24 @@ async function renderPopover(btn, sym, close, indgrp, ind) {
 
     listWrap.querySelectorAll(".wl-picker-row").forEach((row) => {
       row.addEventListener("click", async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // stop the native checkbox toggle — we set .checked ourselves below,
+        // because by the time this handler runs, the browser may have ALREADY flipped
+        // cb.checked as part of its default click behavior (timing differs depending on
+        // whether you clicked the checkbox itself or the label text next to it). Reading
+        // cb.checked here would be unreliable, so we derive intent from `active` instead —
+        // our own source of truth for which lists this symbol currently belongs to.
         const listId = row.dataset.list;
         const cb = row.querySelector("input");
-        const turningOn = !cb.checked;
+        const turningOn = !active.has(listId);
         row.classList.add("wl-picker-busy");
         try {
           await toggleListMembership(listId, sym, close, indgrp, ind, turningOn);
-          cb.checked = turningOn;
           if (turningOn) active.add(listId); else active.delete(listId);
+        } catch (err) {
+          console.error("Watchlist update failed:", err);
+          alert(`Could not update watchlist.\n\n${err.code || err.message || err}`);
         } finally {
+          cb.checked = active.has(listId);
           row.classList.remove("wl-picker-busy");
         }
         paintStars();
@@ -178,6 +186,9 @@ async function renderPopover(btn, sym, close, indgrp, ind) {
         active.add(listId);
         paintStars();
       }
+    } catch (err) {
+      console.error("Create watchlist failed:", err);
+      alert(`Could not create the watchlist.\n\n${err.code || err.message || err}`);
     } finally {
       createBtn.disabled = false;
     }
