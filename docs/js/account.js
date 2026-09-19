@@ -1,4 +1,3 @@
-
 // docs/js/accounts.js
 //
 // Shared multi-account support for the Position Size Calculator and
@@ -13,7 +12,7 @@
 // Existing collections are untouched in shape — `positions` and
 // `bookedPositions` docs simply gain an extra `accountId` field.
 
-import { db } from "./firebase.js";
+import { db } from "./supabase.js";
 import {
   collection,
   doc,
@@ -25,7 +24,7 @@ import {
   orderBy,
   onSnapshot,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+} from "./supabase-compat.js";
 
 const DEFAULT_ACCOUNT_NAME = "Account 1";
 
