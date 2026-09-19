@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Watchlist — Alpha Momentum</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/tracker.css"/>
+<script type="module" src="js/watchlist.js"></script>
+</head>
+<body>
+<div class="topbar"></div>
+
+<header>
+  <div class="brand-name-idx"><div class="brand-dot"></div>Alpha Momentum</div>
+  <div class="header-row">
+    <div class="header-titles">
+      <h1>⭐ Watchlists <span id="wlCountBadge" class="wl-count-badge"><span class="n">0</span>&nbsp;stocks</span></h1>
+      <p>Keep as many watchlists as you like · live price updates like Open Positions</p>
+    </div>
+    <div class="top-buttons">
+      <div class="nav-tabs">
+        <a href="index.html" class="btn-link">← Scanner</a>
+        <a href="position-tracker.html" class="btn-link navy">Position Tracker →</a>
+      </div>
+      <button id="loginBtn" class="btn-link navy">Login with Google</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="panel" id="loginPanel">
+    <p id="loginStatus" class="login-status">
+      Login to sync your watchlists across devices and get live current-price refreshes (every scheduled run) like Open Positions.
+      Without login, watchlists are saved to this browser only and the price shown is the one captured at the moment you starred it.
+    </p>
+  </section>
+
+  <section class="panel" id="breadthPanel">
+    <h2 class="section-title"><span class="dot"></span>Market Breadth <span style="font-weight:400;color:var(--subtle);font-size:.7rem;">— your watchlist only</span></h2>
+
+    <div class="breadth-counts">
+      <div class="breadth-count">
+        <span class="n pos" id="breadthAdvN">0</span>
+        <span class="lbl">Advancing</span>
+      </div>
+      <div class="breadth-count">
+        <span class="n neg" id="breadthDecN">0</span>
+        <span class="lbl">Declining</span>
+      </div>
+      <div class="breadth-count">
+        <span class="n flat" id="breadthFlatN">0</span>
+        <span class="lbl">Unchanged</span>
+      </div>
+      <div class="breadth-count">
+        <span class="n" id="breadthNoDataN">0</span>
+        <span class="lbl">No data yet</span>
+      </div>
+    </div>
+
+    <div class="breadth-bar" id="breadthBar">
+      <div class="breadth-bar-seg breadth-bar-adv" id="breadthBarAdv"></div>
+      <div class="breadth-bar-seg breadth-bar-dec" id="breadthBarDec"></div>
+      <div class="breadth-bar-seg breadth-bar-flat" id="breadthBarFlat"></div>
+    </div>
+
+    <p class="breadth-verdict" id="breadthVerdict">Waiting for price data…</p>
+  </section>
+
+  <section class="panel">
+    <h2 class="section-title"><span class="dot"></span>Your Watchlists</h2>
+
+    <div id="wlTabsBar" class="wl-tabs-bar">
+      <div id="wlTabs" class="wl-tabs"></div>
+      <button id="wlNewListBtn" class="wl-tab-add" type="button" title="Create a new watchlist">+ New Watchlist</button>
+    </div>
+    <div id="wlListActions" class="wl-list-actions">
+      <button id="wlRenameBtn" class="csv-btn csv-secondary" type="button">✎ Rename list</button>
+      <button id="wlDeleteBtn" class="csv-btn csv-danger" type="button">🗑 Delete list</button>
+    </div>
+
+    <div class="csv-bar" style="margin-bottom:0;padding-bottom:0;">
+      <input type="text" id="addSymbolInput" placeholder="e.g. RELIANCE" autocomplete="off"
+             style="font-family:var(--mono);font-size:.78rem;padding:.4rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);min-width:180px;"/>
+      <button class="csv-btn csv-primary" id="addSymbolBtn" type="button">+ Add to This List</button>
+      <span class="csv-label" id="addSymbolMsg"></span>
+    </div>
+
+    <div class="csv-bar">
+      <a class="csv-btn csv-primary" href="javascript:void(0)" onclick="downloadTVList()">⬇ Download TradingView List</a>
+      <a class="csv-btn csv-secondary" id="tvCopyBtn" href="javascript:void(0)" onclick="copyTVList()">⧉ Copy TradingView List</a>
+      <span class="csv-label">Format: SYMBOL, comma-separated — paste directly into a TradingView watchlist</span>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="history-table" id="wlTable">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Symbol</th>
+            <th>Current Price</th>
+            <th id="changeHeader" class="sortable-th" title="Click to sort by % change">Change<i class="sort-i">⇅</i></th>
+            <th>Industry Group</th>
+            <th>Industry</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody id="wlTableBody">
+          <tr class="wl-empty-row"><td colspan="7">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Data sourced from NSE India &amp; Yahoo Finance &nbsp;·&nbsp;
+  Current Price refreshes automatically on the scheduled server job (same job that updates Open Positions) &nbsp;·&nbsp;
+  For informational purposes only — not financial advice
+</footer>
+
+</body>
+</html>

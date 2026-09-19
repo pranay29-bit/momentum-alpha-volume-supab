@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Position Tracker — Alpha Momentum</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/tracker.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script type="module" src="js/position-tracker.js"></script>
+</head>
+<body>
+<div class="topbar"></div>
+
+<header>
+  <div class="brand-name-idx"><div class="brand-dot"></div>Alpha Momentum</div>
+  <div class="header-row">
+    <div class="header-titles">
+      <h1>📊 Position Tracker</h1>
+      <p>Live P&amp;L % and R-multiple on every open position</p>
+    </div>
+    <div class="top-buttons">
+      <div class="nav-tabs">
+        <a href="index.html" class="btn-link">← Scanner</a>
+        <a href="position-size.html" class="btn-link blue">Position Size Calculator →</a>
+      </div>
+      <button id="loginBtn" class="btn-link navy">Login with Google</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="panel" id="accountPanel" style="display:none">
+    <h2 class="section-title"><span class="dot"></span>Account</h2>
+    <div id="accountSwitcher" class="settings"></div>
+  </section>
+
+  <section class="panel" id="settingsPanel">
+    <h2 class="section-title"><span class="dot"></span>Your Portfolio Settings</h2>
+    <p id="settingsDisplay" class="login-status">Login to see your saved portfolio size &amp; risk settings.</p>
+  </section>
+
+  <div class="page-tabs">
+    <button id="tabOpenBtn" class="page-tab active">📈 Open Positions</button>
+    <button id="tabBookedBtn" class="page-tab">📒 Booked Positions</button>
+  </div>
+
+  <!-- ══════════════════ OPEN POSITIONS ══════════════════ -->
+  <div id="openPanel">
+
+    <section class="summary">
+      <div class="card">
+        <h3>Open Positions</h3>
+        <span id="openCount">0</span>
+      </div>
+      <div class="card">
+        <h3>Avg R</h3>
+        <span id="avgR">0R</span>
+      </div>
+      <div class="card">
+        <h3>Winners / Losers</h3>
+        <span id="winLoss">0 / 0</span>
+      </div>
+      <div class="card">
+        <h3>Total Portfolio Impact</h3>
+        <span id="totalImpact">₹0</span>
+      </div>
+      <div class="card">
+        <h3>Total Impact %</h3>
+        <span id="totalImpactPct">0%</span>
+      </div>
+      <div class="card">
+        <h3>Total Capital</h3>
+        <span id="totalCapital">₹0</span>
+      </div>
+      <div class="card">
+        <h3>Total Invested (Cost)</h3>
+        <span id="totalInvestedCost">₹0</span>
+      </div>
+      <div class="card">
+        <h3>Total Invested (Current)</h3>
+        <span id="totalInvestedCurrent">₹0</span>
+      </div>
+      <div class="card">
+        <h3>Total Cash</h3>
+        <span id="totalCash">₹0</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="section-title"><span class="dot"></span>Open Positions</h2>
+      <p class="login-status" style="margin-top:0;margin-bottom:.85rem;">
+        Current Price refreshes automatically every 5 minutes via a scheduled server job. Use the override box for an instant correction in between.
+        Click ✅ when you exit a trade to log it permanently in your Booked Positions journal.
+      </p>
+      <div class="tbl-wrap">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Date Bought</th>
+              <th>Entry</th>
+              <th>SL</th>
+              <th>Risk %</th>
+              <th>Qty</th>
+              <th>Current Price</th>
+              <th class="sortable" data-table="open" data-key="pnlPct">P&amp;L % <span class="sort-arrow"></span></th>
+              <th class="sortable" data-table="open" data-key="rMultiple">R Multiple <span class="sort-arrow"></span></th>
+              <th class="sortable" data-table="open" data-key="impactPct">Portfolio Impact <span class="sort-arrow"></span></th>
+              <th>Book</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody id="positionsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ══════════════════ BOOKED POSITIONS ══════════════════ -->
+  <div id="bookedPanel" style="display:none">
+
+    <section class="summary">
+      <div class="card">
+        <h3>Booked Trades</h3>
+        <span id="bookedCount">0</span>
+      </div>
+      <div class="card">
+        <h3>Win Rate</h3>
+        <span id="bookedWinRate">0%</span>
+      </div>
+      <div class="card">
+        <h3>Avg R</h3>
+        <span id="bookedAvgR">0R</span>
+      </div>
+      <div class="card">
+        <h3>Total Realised P&amp;L</h3>
+        <span id="bookedTotalPnl">₹0</span>
+      </div>
+      <div class="card">
+        <h3>Total Realised %</h3>
+        <span id="bookedTotalPnlPct">0%</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="section-title"><span class="dot"></span>Daily P&amp;L Heatmap</h2>
+      <p class="login-status" style="margin-top:0;margin-bottom:.85rem;">
+        Each square is a day you closed a trade — greener and darker means a bigger profit day, redder and darker means a bigger loss day. Hover a square for details.
+      </p>
+      <div id="heatmapRange" class="heatmap-range"></div>
+      <div class="heatmap-wrap">
+        <div id="heatmapGrid" class="heatmap-grid"></div>
+      </div>
+      <div class="heatmap-legend">
+        <span>Loss</span>
+        <span class="heatmap-day" style="background:var(--red)"></span>
+        <span class="heatmap-day" style="background:var(--red-mid)"></span>
+        <span class="heatmap-day" style="background:var(--surface-2)"></span>
+        <span class="heatmap-day" style="background:var(--emerald-mid)"></span>
+        <span class="heatmap-day" style="background:var(--emerald)"></span>
+        <span>Profit</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="section-title"><span class="dot"></span>Trade Analytics</h2>
+      <p class="login-status" style="margin-top:0;margin-bottom:.85rem;">
+        A closer look at how your trades actually perform, beyond just win rate.
+      </p>
+      <div class="analytics-grid">
+        <div class="card">
+          <h3>Max Profit (Day)</h3>
+          <span id="maxProfitDay">₹0</span>
+        </div>
+        <div class="card">
+          <h3>Max Loss (Day)</h3>
+          <span id="maxLossDay">₹0</span>
+        </div>
+        <div class="card">
+          <h3>Avg Profit (Winners)</h3>
+          <span id="avgProfitTrade">₹0</span>
+        </div>
+        <div class="card">
+          <h3>Avg Loss (Losers)</h3>
+          <span id="avgLossTrade">₹0</span>
+        </div>
+        <div class="card">
+          <h3>Best Trade</h3>
+          <span id="bestTrade">—</span>
+        </div>
+        <div class="card">
+          <h3>Worst Trade</h3>
+          <span id="worstTrade">—</span>
+        </div>
+        <div class="card">
+          <h3>Profit Factor</h3>
+          <span id="profitFactor">—</span>
+        </div>
+        <div class="card">
+          <h3>Expectancy / Trade</h3>
+          <span id="expectancyTrade">₹0</span>
+        </div>
+        <div class="card">
+          <h3>Avg Hold (Winners)</h3>
+          <span id="avgHoldWin">—</span>
+        </div>
+        <div class="card">
+          <h3>Avg Hold (Losers)</h3>
+          <span id="avgHoldLoss">—</span>
+        </div>
+        <div class="card">
+          <h3>Longest Win Streak</h3>
+          <span id="maxWinStreak">0</span>
+        </div>
+        <div class="card">
+          <h3>Longest Loss Streak</h3>
+          <span id="maxLossStreak">0</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="kellyPanel">
+      <h2 class="section-title"><span class="dot"></span>Kelly Criterion — Position Sizing</h2>
+      <p class="login-status" style="margin-top:0;margin-bottom:.85rem;">
+        Computed from your actual booked trades below — your real win rate and average
+        winner/loser R multiples, not an assumption.
+      </p>
+      <div class="analytics-grid">
+        <div class="card">
+          <h3>Trades Used</h3>
+          <span id="kellyN">0</span>
+        </div>
+        <div class="card">
+          <h3>Win Rate</h3>
+          <span id="kellyWinRate">0%</span>
+        </div>
+        <div class="card">
+          <h3>Avg Winner</h3>
+          <span id="kellyAvgWin">0R</span>
+        </div>
+        <div class="card">
+          <h3>Avg Loser</h3>
+          <span id="kellyAvgLoss">0R</span>
+        </div>
+        <div class="card">
+          <h3>Kelly f* (max-return risk/trade)</h3>
+          <span id="kellyFull">0%</span>
+        </div>
+        <div class="card">
+          <h3>Half-Kelly (recommended)</h3>
+          <span id="kellyHalf">0%</span>
+        </div>
+        <div class="card">
+          <h3>Your Actual Avg Risk/Trade</h3>
+          <span id="kellyActual">0%</span>
+        </div>
+        <div class="card">
+          <h3>Sizing Verdict</h3>
+          <span id="kellyVerdict">—</span>
+        </div>
+      </div>
+
+      <div id="kellyChartWrap" style="margin-top:1.2rem;max-width:760px;">
+        <canvas id="kellyGrowthChart" height="260"></canvas>
+      </div>
+      <p id="kellyNote" class="login-status" style="margin-top:.85rem;line-height:1.6;"></p>
+
+      <details style="margin-top:1rem;">
+        <summary style="cursor:pointer;font-weight:600;color:var(--ink,inherit);">What is the Kelly Criterion? (plain terms)</summary>
+        <p class="login-status" style="margin-top:.6rem;line-height:1.7;max-width:820px;">
+          Every trade you take has two things attached to it: how often you win (win rate), and
+          how much you make when you win vs. lose when you lose (your R multiple). The Kelly
+          Criterion answers: <b>what fraction of my capital should I risk per trade to grow my
+          account as fast as possible, without eventually blowing it up?</b><br/><br/>
+          Formula: <b>f* = W/a − (1−W)/b</b>, where W = win rate, b = average winning R multiple,
+          a = average losing R magnitude (usually close to 1R, since that's what your stop-loss
+          defines).<br/><br/>
+          The curve above is your expected long-run growth rate as risk-per-trade increases.
+          Its peak <i>is</i> f* — the mathematical point of maximum return. Risking more than
+          that doesn't add extra long-run return, it only adds risk, and growth eventually turns
+          negative. Because real-world win-rate and R estimates are noisy and this account will
+          have relatively few trades logged, most practitioners size at a fraction of full Kelly
+          — commonly <b>half-Kelly</b> — trading a little theoretical growth for much less
+          volatility and drawdown.
+        </p>
+      </details>
+    </section>
+
+    <section class="panel">
+      <h2 class="section-title"><span class="dot"></span>Trade Journal</h2>
+      <p class="login-status" style="margin-top:0;margin-bottom:.85rem;">
+        Every closed trade, permanently logged — your record for reviewing what worked, what didn't, and getting better one trade at a time.
+      </p>
+      <div class="tbl-wrap">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Date Bought</th>
+              <th>Date Sold</th>
+              <th>Held</th>
+              <th>Entry</th>
+              <th>SL</th>
+              <th>Exit Price</th>
+              <th>Risk %</th>
+              <th>Qty</th>
+              <th class="sortable" data-table="booked" data-key="pnlPct">P&amp;L % <span class="sort-arrow"></span></th>
+              <th class="sortable" data-table="booked" data-key="rMultiple">R Multiple <span class="sort-arrow"></span></th>
+              <th class="sortable" data-table="booked" data-key="impactPct">Portfolio Impact <span class="sort-arrow"></span></th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody id="bookedTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+</div>
+
+<div id="heatmapTooltip" class="heatmap-tooltip"></div>
+
+<!-- ══════════════════ BOOK POSITION MODAL ══════════════════ -->
+<div id="bookModalOverlay" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <h2 class="section-title"><span class="dot"></span>Book <span id="bookModalSymbol">—</span></h2>
+    <div class="field" style="margin-bottom:1rem;">
+      <label class="field-label" for="bookExitPrice">Exit Price</label>
+      <input id="bookExitPrice" type="number" placeholder="e.g. 3950"/>
+    </div>
+    <div class="field" style="margin-bottom:1.4rem;">
+      <label class="field-label" for="bookDateSold">Date Sold</label>
+      <input id="bookDateSold" type="date"/>
+    </div>
+    <div style="display:flex;gap:.6rem;justify-content:flex-end;">
+      <button id="bookModalCancel" class="btn-link">Cancel</button>
+      <button id="bookModalConfirm" class="btn-link green">✅ Confirm &amp; Book</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Data sourced from NSE India &amp; Yahoo Finance &nbsp;·&nbsp;
+  Updated daily at 18:00 IST &nbsp;·&nbsp;
+  For informational purposes only — not financial advice
+</footer>
+
+</body>
+</html>

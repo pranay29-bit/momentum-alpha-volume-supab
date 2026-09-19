@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Position Size Calculator — Alpha Momentum</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/tracker.css"/>
+<script type="module" src="js/position-size.js"></script>
+</head>
+<body>
+<div class="topbar"></div>
+
+<header>
+  <div class="brand-name-idx"><div class="brand-dot"></div>Alpha Momentum</div>
+  <div class="header-row">
+    <div class="header-titles">
+      <h1>📐 Position Size Calculator</h1>
+      <p>Risk-based quantity sizing · saved to your account</p>
+    </div>
+    <div class="top-buttons">
+      <div class="nav-tabs">
+        <a href="index.html" class="btn-link">← Scanner</a>
+        <a href="position-tracker.html" class="btn-link blue">Position Tracker →</a>
+      </div>
+      <button id="loginBtn" class="btn-link navy">Login with Google</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="panel">
+    <h2 class="section-title"><span class="dot"></span>Account</h2>
+    <div id="accountSwitcher" class="settings"></div>
+    <p class="login-status">Each account keeps its own portfolio size, risk settings, open positions and trade journal.</p>
+  </section>
+
+  <section class="panel">
+    <h2 class="section-title"><span class="dot"></span>Portfolio Settings</h2>
+    <div class="settings">
+      <div class="field">
+        <label class="field-label" for="portfolioSize">Portfolio Size (₹)</label>
+        <input id="portfolioSize" type="number" placeholder="e.g. 1000000"/>
+      </div>
+      <div class="field">
+        <label class="field-label" for="riskType">Risk Basis</label>
+        <select id="riskType">
+          <option value="percent">Risk as % of portfolio</option>
+          <option value="absolute">Risk as ₹ amount</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label" for="riskValue">Risk Value</label>
+        <input id="riskValue" type="number" placeholder="e.g. 1 or 10000"/>
+      </div>
+    </div>
+    <p id="settingsStatus" class="login-status">These stay fixed until you change them — saved to your account and shown on the Position Tracker page too.</p>
+  </section>
+
+  <section class="panel">
+    <h2 class="section-title"><span class="dot"></span>Calculate Position Size</h2>
+    <div class="add-position">
+      <div class="field">
+        <label class="field-label" for="symbol">Symbol</label>
+        <input id="symbol" placeholder="TCS.NS"/>
+      </div>
+      <div class="field">
+        <label class="field-label" for="dateBought">Date Bought</label>
+        <input id="dateBought" type="date"/>
+      </div>
+      <div class="field">
+        <label class="field-label" for="entry">Entry Price</label>
+        <input id="entry" type="number" placeholder="e.g. 3850"/>
+      </div>
+      <div class="field">
+        <label class="field-label" for="stop">Stop Loss</label>
+        <input id="stop" type="number" placeholder="e.g. 3700"/>
+      </div>
+      <button id="addBtn" class="btn-link blue">+ Add Position</button>
+    </div>
+
+    <div class="preview-box" id="previewBox" style="display:none">
+      <div class="stat">
+        <label>Risk Amount</label>
+        <span id="previewRiskAmount">—</span>
+      </div>
+      <div class="stat">
+        <label>Risk / Share</label>
+        <span id="previewRiskPerShare">—</span>
+      </div>
+      <div class="stat">
+        <label>Risk % (Entry–SL)</label>
+        <span id="previewRiskPct">—</span>
+      </div>
+      <div class="stat">
+        <label>Quantity To Buy</label>
+        <span id="previewQty">—</span>
+      </div>
+      <div class="stat">
+        <label>Capital Required</label>
+        <span id="previewCapital">—</span>
+      </div>
+    </div>
+    <p id="addStatus" class="login-status"></p>
+  </section>
+
+</div>
+
+<footer>
+  Data sourced from NSE India &amp; Yahoo Finance &nbsp;·&nbsp;
+  Updated daily at 18:00 IST &nbsp;·&nbsp;
+  For informational purposes only — not financial advice
+</footer>
+
+</body>
+</html>
