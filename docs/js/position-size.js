@@ -1,4 +1,4 @@
-import { db, auth, login, logout, onAuthStateChanged } from "./firebase.js";
+import { db, auth, login, logout, onAuthStateChanged } from "./supabase.js";
 import {
   ensureDefaultAccount,
   subscribeAccounts,
@@ -12,7 +12,7 @@ import {
   collection,
   addDoc,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+} from "./supabase-compat.js";
 
 const loginBtn = document.getElementById("loginBtn");
 const addBtn = document.getElementById("addBtn");
