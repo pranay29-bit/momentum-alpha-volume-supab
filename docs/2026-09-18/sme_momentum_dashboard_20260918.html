@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SME Momentum Scan — 18 Sep 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root { --ACCENT1:var(--indigo); --ACCENT2:var(--blue); }
+
+:root {
+  /* Surfaces */
+  --bg:         #ffffff;
+  --surface:    #ffffff;
+  --surface-2:  #fbfbfe;
+  --surface2:   #fbfbfe;
+  --surface3:   #f1f3f9;
+  --border:     #e5e8f0;
+  --border-2:   #d4d9e8;
+  --border2:    #d4d9e8;
+
+  /* Text */
+  --text:       #0d1426;
+  --muted:      #5b6178;
+  --subtle:     #9499b3;
+
+  /* Brand accents */
+  --navy:       #0f1b3d;
+  --navy-2:     #16234a;
+  --navy-lt:    #eef1f8;
+  --navy-mid:   #c9d0e3;
+  --indigo:     #4f46e5;
+  --indigo-lt:  #eef0fd;
+  --indigo-mid: #c7d2fe;
+  --emerald:    #059669;
+  --emerald-lt: #ecfdf5;
+  --emerald-mid:#a7f3d0;
+  --blue:       #2563eb;
+  --blue-lt:    #eff6ff;
+  --blue-mid:   #bfdbfe;
+  --amber:      #b45309;
+  --amber-lt:   #fffbeb;
+  --amber-mid:  #fde68a;
+  --red:        #dc2626;
+  --red-lt:     #fef2f2;
+  --red-mid:    #fca5a5;
+  --violet:     #7c3aed;
+  --violet-lt:  #f5f3ff;
+  --violet-mid: #ddd6fe;
+  --rose:       #e11d48;
+  --rose-lt:    #fff1f2;
+  --rose-mid:   #fecdd3;
+  --slate:      #475569;
+  --slate-lt:   #f1f5f9;
+  --slate-mid:  #cbd5e1;
+
+  /* NEW badge */
+  --new-bg:     #fdf4ff;
+  --new-border: #d946ef;
+  --new-text:   #a21caf;
+  --new-row:    #fdf4ff;
+
+  /* Type — identical stack used site-wide (homepage, all dashboards, tools) */
+  --sans:  'Outfit', system-ui, -apple-system, sans-serif;
+  --mono:  'DM Mono', 'SF Mono', 'Courier New', monospace;
+
+  /* Radii */
+  --r:   8px;
+  --rl:  12px;
+  --radius:    12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 2px rgba(15,23,42,.04);
+  --shadow-md: 0 4px 16px -4px rgba(15,23,42,.08), 0 1px 3px rgba(15,23,42,.04);
+  --rxl: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ── Topbar ── */
+.topbar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--ACCENT1) 0%, var(--ACCENT2) 100%);
+}
+
+/* ── Header ── */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 1.6rem 2.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.hdr-left { display: flex; flex-direction: column; gap: .2rem; }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .25rem;
+}
+.brand-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+}
+.brand-name {
+  font-family: var(--mono);
+  font-size: .65rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+header h1 {
+  font-size: clamp(1.35rem, 2.5vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  color: var(--text);
+}
+.hdr-sub {
+  font-size: .8rem;
+  color: var(--muted);
+  margin-top: .15rem;
+}
+.badge-row { display: flex; gap: .45rem; margin-top: .5rem; flex-wrap: wrap; }
+
+/* ── Shared cross-page nav bar (identical component on every page) ── */
+.site-nav {
+  display: flex; flex-wrap: wrap; gap: .5rem; align-items: center;
+  padding: .75rem 2.5rem;
+  background: color-mix(in srgb, var(--surface-2) 88%, transparent);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 6px 18px -10px rgba(15,23,42,.18);
+}
+.btn-link {
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .32rem .9rem; border-radius: 999px;
+  font-family: var(--mono); font-size: .72rem; font-weight: 600;
+  background: var(--indigo-lt); border: 1px solid var(--indigo-mid); color: var(--indigo);
+  text-decoration: none; transition: background .14s, box-shadow .14s, transform .14s; letter-spacing: .03em;
+}
+.btn-link:hover { transform: translateY(-1px); box-shadow: 0 3px 8px -3px rgba(15,23,42,.18); }
+.btn-link:hover { background: #dde2fb; }
+.btn-link.green   { background: var(--emerald-lt); border-color: var(--emerald-mid); color: var(--emerald); }
+.btn-link.green:hover   { background: #d7f8ea; }
+.btn-link.blue    { background: var(--blue-lt);    border-color: var(--blue-mid);    color: var(--blue); }
+.btn-link.blue:hover    { background: #dee9fd; }
+.btn-link.amber   { background: var(--amber-lt);   border-color: var(--amber-mid);   color: var(--amber); }
+.btn-link.amber:hover   { background: #fef3c7; }
+.btn-link.violet  { background: var(--violet-lt);  border-color: var(--violet-mid);  color: var(--violet); }
+.btn-link.violet:hover  { background: #ede7fd; }
+.btn-link.navy    { background: var(--navy-lt, #eef1f8); border-color: var(--navy-mid, #c9d0e3); color: var(--navy); }
+.btn-link.navy:hover    { background: #e2e6f2; }
+.btn-link.red     { background: var(--red-lt);     border-color: var(--red-mid);     color: var(--red); }
+.btn-link.red:hover     { background: #fee2e2; }
+.btn-link.rose    { background: var(--rose-lt);    border-color: var(--rose-mid);    color: var(--rose); }
+.btn-link.rose:hover    { background: #ffe4e6; }
+.btn-link.slate   { background: var(--slate-lt);   border-color: var(--slate-mid);   color: var(--slate); }
+.btn-link.slate:hover   { background: #e2e8f0; }
+.btn-link.gold    { background: #fff8e1; border-color: #f5d76e; color: #9a7500; }
+.btn-link.gold:hover    { background: #fef0c2; }
+.btn-link.is-active { box-shadow: 0 0 0 1px currentColor inset; font-weight: 700; }
+.hdr-badge {
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: .22rem .75rem;
+  border: 1px solid;
+}
+.date-pill {
+  font-family: var(--mono);
+  font-size: .72rem;
+  font-weight: 500;
+  padding: .4rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid;
+  white-space: nowrap;
+  letter-spacing: .04em;
+  align-self: flex-start;
+  margin-top: .25rem;
+}
+
+/* ── CSV bar ── */
+.csv-bar {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .6rem 2.5rem;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.csv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: .35rem .95rem;
+  font-family: var(--mono);
+  font-size: .7rem;
+  font-weight: 500;
+  border-radius: var(--r);
+  border: 1px solid;
+  cursor: pointer;
+  transition: background .14s;
+  letter-spacing: .03em;
+}
+.csv-primary {
+  background: var(--emerald-lt);
+  border-color: var(--emerald-mid);
+  color: var(--emerald);
+}
+.csv-primary:hover { background: #d1fae5; }
+.csv-secondary {
+  background: var(--blue-lt);
+  border-color: var(--blue-mid);
+  color: var(--blue);
+}
+.csv-secondary:hover { background: #dbeafe; }
+.csv-label {
+  font-family: var(--mono);
+  font-size: .67rem;
+  color: var(--subtle);
+  margin-left: auto;
+}
+
+/* ── KPI strip ── */
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  border-bottom: 1px solid var(--border);
+}
+.kpi {
+  background: var(--surface);
+  padding: 1.1rem 1.6rem;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+.kpi:last-child { border-right: none; }
+.kpi::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: var(--accent);
+}
+.kpi-lbl {
+  font-size: .62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .11em;
+  color: var(--muted);
+  margin-bottom: .35rem;
+}
+.kpi-val {
+  font-size: clamp(1.1rem, 2vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1;
+  color: var(--accent);
+}
+.kpi-hint {
+  font-size: .67rem;
+  color: var(--subtle);
+  margin-top: .25rem;
+}
+
+/* ── Charts area ── */
+.charts-area {
+  padding: 1.1rem 2.5rem;
+  display: grid;
+  gap: .85rem;
+}
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  padding: 1.1rem 1.3rem .9rem;
+}
+.chart-lbl {
+  font-size: .62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .11em;
+  color: var(--muted);
+  margin-bottom: .8rem;
+}
+.chart-wrap { position: relative; height: 220px; }
+
+/* ── Table section ── */
+.table-sec { padding: 0 2.5rem 3rem; }
+.tbl-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .9rem 0 .7rem;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+.tbl-title {
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+}
+.tbl-count { color: var(--ACCENT1); margin-left: .4rem; }
+.controls { display: flex; align-items: center; gap: .85rem; flex-wrap: wrap; }
+.search {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: .82rem;
+  padding: .38rem .9rem;
+  outline: none;
+  width: 210px;
+  transition: border-color .16s, box-shadow .16s;
+}
+.search::placeholder { color: var(--subtle); }
+.search:focus {
+  border-color: var(--ACCENT1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ACCENT1) 12%, transparent);
+}
+.legend-row { display: flex; gap: .9rem; align-items: center; flex-wrap: wrap; }
+.leg { display: flex; align-items: center; gap: .3rem; font-size: .68rem; color: var(--muted); }
+.leg-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── Table ── */
+.tbl-outer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  /* Constrain height so the horizontal scrollbar sits right below the
+     visible rows instead of at the very bottom of a (potentially very
+     long) table — no need to scroll the whole page to reach it. */
+  max-height: 72vh;
+  overflow: auto;
+}
+table { width: 100%; border-collapse: collapse; font-size: .82rem; white-space: nowrap; }
+thead tr {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 2;
+}
+th {
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+  padding: .68rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  transition: background .12s;
+  white-space: nowrap;
+}
+th:hover { background: var(--surface3); }
+th.r { text-align: right; } th.c { text-align: center; }
+th .si { margin-left: .25rem; opacity: .3; font-style: normal; font-size: .65rem; }
+th.sort-asc  .si::after { content: '▲'; opacity: 1; color: var(--ACCENT1); }
+th.sort-desc .si::after { content: '▼'; opacity: 1; color: var(--ACCENT1); }
+th:not(.sort-asc):not(.sort-desc) .si::after { content: '⇅'; }
+.srow { border-bottom: 1px solid var(--border); transition: background .1s; }
+.srow:last-child { border-bottom: none; }
+.srow:hover { background: var(--bg); }
+td { padding: .65rem 1rem; vertical-align: middle; }
+td.r { text-align: right; } td.c { text-align: center; }
+
+/* ── NEW-stock highlight row ── */
+.srow.is-new { background: var(--new-row); }
+.srow.is-new:hover { background: #fae8ff; }
+
+/* ── Watchlist star toggle ── */
+.star-th { width: 2rem; padding-left: .9rem !important; padding-right: 0 !important; }
+.star-td { width: 2rem; text-align: center; padding-left: .9rem !important; padding-right: 0 !important; }
+.wl-star {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.05rem;
+  line-height: 1;
+  padding: 0;
+  color: var(--subtle);
+  transition: color .12s, transform .12s;
+}
+.wl-star:hover { color: #d4a017; transform: scale(1.15); }
+.wl-star.is-active { color: #f5b800; }
+
+/* ── Watchlist picker popover (which list to add this stock to?) ── */
+.wl-picker {
+  position: absolute;
+  z-index: 9999;
+  width: 240px;
+  background: #fff;
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, .16), 0 2px 8px rgba(15, 23, 42, .08);
+  padding: .65rem;
+  font-family: var(--sans, "Outfit", sans-serif);
+  animation: wlPickerIn .12s ease-out;
+}
+@keyframes wlPickerIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.wl-picker-title {
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--ink, #1f2937);
+  padding: .15rem .3rem .5rem;
+  border-bottom: 1px solid var(--border, #eef0f3);
+  margin-bottom: .4rem;
+}
+.wl-picker-sym {
+  font-family: var(--mono, monospace);
+  color: #f5b800;
+  background: #fff8e1;
+  border-radius: 4px;
+  padding: 0 .3rem;
+}
+.wl-picker-list { max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: .1rem; }
+.wl-picker-empty { font-size: .72rem; color: var(--subtle, #8892a0); padding: .4rem .3rem; }
+.wl-picker-row {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .42rem .4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: .78rem;
+  color: var(--ink, #1f2937);
+  transition: background .1s;
+}
+.wl-picker-row:hover { background: #f6f7fb; }
+.wl-picker-row.wl-picker-busy { opacity: .5; pointer-events: none; }
+.wl-picker-row input[type="checkbox"] {
+  width: 15px; height: 15px; accent-color: #f5b800; cursor: pointer; flex: none;
+}
+.wl-picker-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wl-picker-new {
+  display: flex;
+  gap: .35rem;
+  margin-top: .55rem;
+  padding-top: .5rem;
+  border-top: 1px solid var(--border, #eef0f3);
+}
+.wl-picker-input {
+  flex: 1;
+  min-width: 0;
+  font-size: .74rem;
+  padding: .38rem .55rem;
+  border: 1px solid var(--border, #dfe3e8);
+  border-radius: 7px;
+  font-family: inherit;
+}
+.wl-picker-input:focus { outline: none; border-color: #f5b800; }
+.wl-picker-create {
+  font-size: .72rem;
+  font-weight: 600;
+  color: #1f2937;
+  background: #ffe38f;
+  border: 1px solid #f2c94c;
+  border-radius: 7px;
+  padding: .38rem .6rem;
+  cursor: pointer;
+  transition: filter .1s;
+  flex: none;
+}
+.wl-picker-create:hover { filter: brightness(.96); }
+.wl-picker-create:disabled { opacity: .5; cursor: default; }
+@media (max-width: 640px) {
+  .wl-picker { width: min(280px, calc(100vw - 24px)); }
+}
+
+/* ── Symbol tags ── */
+.sym-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: .72rem;
+  padding: .2rem .6rem;
+  border-radius: 6px;
+  letter-spacing: .05em;
+  border: 1px solid;
+  transition: filter .12s;
+}
+.sym-tag:hover { filter: brightness(.93); }
+.sym-new-star {
+  font-size: .55rem;
+  background: var(--new-bg);
+  border: 1px solid var(--new-border);
+  color: var(--new-text);
+  border-radius: 999px;
+  padding: .1rem .38rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+
+/* ── Value pills ── */
+.pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: .71rem;
+  font-weight: 500;
+  padding: .18rem .55rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+.pill-green  { background: var(--emerald-lt); border-color: var(--emerald-mid); color: var(--emerald); }
+.pill-red    { background: var(--red-lt);     border-color: #fca5a5;            color: var(--red); }
+.pill-rose   { background: var(--rose-lt);    border-color: var(--rose-mid);    color: var(--rose); }
+.pill-slate  { background: var(--slate-lt);   border-color: var(--slate-mid);   color: var(--slate); }
+.pill-amber  { background: var(--amber-lt);   border-color: var(--amber-mid);   color: var(--amber); }
+.pill-indigo { background: var(--indigo-lt);  border-color: var(--indigo-mid);  color: var(--indigo); }
+.pill-blue   { background: var(--blue-lt);    border-color: var(--blue-mid);    color: var(--blue); }
+.pill-muted  { background: var(--surface2);   border-color: var(--border2);     color: var(--muted); }
+.pill-violet { background: var(--violet-lt);  border-color: var(--violet-mid);  color: var(--violet); }
+
+/* ── Volume bar ── */
+.vol-wrap { display: flex; align-items: center; gap: .5rem; min-width: 130px; }
+.vol-bg   { flex: 1; height: 4px; background: var(--surface3); border-radius: 99px; overflow: hidden; }
+.vol-fill { height: 100%; border-radius: 99px; }
+.vol-pct  { font-family: var(--mono); font-size: .7rem; font-weight: 600; min-width: 42px; text-align: right; }
+
+/* ── IB badge ── */
+.ib-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: .58rem;
+  font-weight: 600;
+  background: var(--amber-lt);
+  border: 1px solid var(--amber-mid);
+  color: var(--amber);
+  padding: .1rem .4rem;
+  border-radius: 4px;
+  margin-left: .3rem;
+  letter-spacing: .04em;
+  vertical-align: middle;
+}
+
+/* ── No-data row ── */
+.no-data {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+/* ── Info callout ── */
+.callout {
+  padding: .6rem 2.5rem;
+  font-size: .78rem;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: .68rem;
+  color: var(--subtle);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  font-family: var(--mono);
+  letter-spacing: .04em;
+}
+
+/* ── Horizontal scroll wrapper for tables on small screens ── */
+.tbl-outer { -webkit-overflow-scrolling: touch; }
+table { min-width: 640px; }
+
+/* ── Mobile responsiveness ── */
+@media (max-width: 768px) {
+  html { font-size: 13px; }
+
+  header {
+    padding: 1.1rem 1.1rem;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .site-nav { padding: .65rem 1.1rem; }
+  .date-pill { align-self: flex-start; margin-top: .6rem; }
+
+  .csv-bar { padding: .55rem 1.1rem; }
+  .csv-label { margin-left: 0; width: 100%; }
+
+  .charts-area { padding: .9rem 1.1rem; grid-template-columns: 1fr !important; }
+  .chart-wrap { height: 180px; }
+
+  .table-sec { padding: 0 1.1rem 2rem; }
+  .callout { padding: .6rem 1.1rem; }
+
+  .tbl-head { flex-direction: column; align-items: stretch; }
+  .controls { width: 100%; }
+  .search { width: 100%; }
+  .legend-row { width: 100%; }
+
+  .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+  .kpi { padding: .85rem 1rem; border-bottom: 1px solid var(--border); }
+
+  th, td { padding: .55rem .7rem; }
+}
+
+@media (max-width: 480px) {
+  .kpi-strip { grid-template-columns: 1fr 1fr; }
+  header h1 { font-size: 1.25rem; }
+  .hdr-sub { font-size: .74rem; }
+  .badge-row { gap: .3rem; }
+  .hdr-badge { font-size: .6rem; padding: .18rem .6rem; }
+}
+
+</style>
+<script type="module" src="../js/watchlist-star.js"></script>
+</head>
+<body>
+<div class="topbar"></div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="btn-link navy">🏠 Home</a>
+  <a href="dashboard_20260918.html" class="btn-link indigo">📊 Momentum</a><a href="elite_dashboard_20260918.html" class="btn-link green">⚡ Elite</a><a href="volume_dashboard_20260918.html" class="btn-link blue">🔵 Volume</a><a href="rocket_dashboard_20260918.html" class="btn-link amber">🚀 Rocket</a><a href="newrshigh_dashboard_20260918.html" class="btn-link rose">🔥 New RS High</a><a href="stage4_dashboard_20260918.html" class="btn-link red">📉 Stage 4</a><a href="sme_momentum_dashboard_20260918.html" class="btn-link violet is-active">🏷️ SME Momentum</a><a href="sme_elite_dashboard_20260918.html" class="btn-link violet">🏷️ SME Elite</a><a href="../watchlist.html" class="btn-link gold">⭐ Watchlist</a>
+  <a href="../position-size.html" class="btn-link violet">📐 Position Size</a>
+  <a href="../position-tracker.html" class="btn-link navy">📈 Position Tracker</a>
+</nav>
+
+<div class="csv-bar">
+  <a class="csv-btn csv-primary" href="sme_momentum_stocks_20260918.csv" download="sme_momentum_stocks_20260918.csv">⬇ Download Passing CSV</a>
+  <a class="csv-btn csv-secondary" href="sme_full_results_20260918.csv" download="sme_full_results_20260918.csv">⬇ Full Results CSV</a>
+  <span class="csv-label">Passing Stocks · Scan date: 2026-09-18</span>
+</div>
+<div class="csv-bar">
+  <a class="csv-btn csv-primary" href="javascript:void(0)" onclick="downloadTVList()">⬇ Download TradingView List</a>
+  <a class="csv-btn csv-secondary" id="tvCopyBtn" href="javascript:void(0)" onclick="copyTVList()">⧉ Copy TradingView List</a>
+  <input type="hidden" id="tvFileName" value="tradingview_sme_momentum_20260918.txt">
+  <span class="csv-label">Format: SYMBOL, comma-separated — paste directly into a TradingView watchlist</span>
+</div>
+<header>
+  <div class="hdr-left">
+    <div class="brand">
+      <div class="brand-dot" style="background:var(--indigo)"></div>
+      <span class="brand-name">Alpha Momentum · SME Scanner</span>
+    </div>
+    <h1>SME Momentum Scan</h1>
+    <p class="hdr-sub">All 8 Minervini conditions passing · NSE Emerge + BSE SME · 18 Sep 2026</p>
+    <div class="badge-row">
+      <span class="hdr-badge" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)">✓ All 8 Conditions</span>
+      
+    </div>
+  </div>
+  <div class="date-pill" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)">18 Sep 2026</div>
+</header>
+
+<div class="kpi-strip" style="--accent:var(--indigo)">
+  <div class="kpi" style="--accent:var(--indigo)">
+    <div class="kpi-lbl">Passing Stocks</div>
+    <div class="kpi-val">20</div>
+    <div class="kpi-hint">all 8 conditions met</div>
+  </div>
+  <div class="kpi" style="--accent:var(--violet)">
+    <div class="kpi-lbl">Above EMA10</div>
+    <div class="kpi-val">15</div>
+    <div class="kpi-hint">close &gt; 10-period ema</div>
+  </div>
+  <div class="kpi" style="--accent:var(--emerald)">
+    <div class="kpi-lbl">Combined Market Cap</div>
+    <div class="kpi-val">₹0 Cr</div>
+    <div class="kpi-hint">aggregate market cap</div>
+  </div>
+  <div class="kpi" style="--accent:var(--blue)">
+    <div class="kpi-lbl">Total Traded Value</div>
+    <div class="kpi-val">₹0 Cr</div>
+    <div class="kpi-hint">today's traded volume</div>
+  </div>
+  
+</div>
+
+<div class="callout">
+  <strong style="color:var(--indigo)">Minervini Trend Template:</strong>
+  Stocks satisfying all 8 conditions — price above MA150 &amp; MA200, MA150 &gt; MA200,
+  MA200 trending up ≥ 1 month, MA50 above MA150 &amp; MA200, price above MA50,
+  price ≥ 30% above 52-week low, within 25% of 52-week high, and RS percentile ≥ 70.
+  These are momentum candidates in a confirmed Stage 2 uptrend.
+</div>
+
+<div class="charts-area" style="grid-template-columns:1fr">
+  <div class="chart-card">
+    <div class="chart-lbl">Total Market Cap by Stock (₹ Cr)</div>
+    <div class="chart-wrap">
+      <canvas id="barChart" role="img" aria-label="Market cap bar chart for passing stocks"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="table-sec">
+  <div class="tbl-head">
+    <div>
+      <span class="tbl-title">Passing Stocks Detail</span>
+      <span class="tbl-count tbl-title">[20]</span>
+    </div>
+    <div class="controls">
+      <div class="legend-row">
+        <div class="leg"><div class="leg-dot" style="background:var(--emerald)"></div>Close &gt; EMA10</div>
+        <div class="leg"><div class="leg-dot" style="background:var(--red)"></div>Close ≤ EMA10</div>
+        <div class="leg"><div class="leg-dot" style="background:var(--new-border)"></div>✦ New (10-day)</div>
+      </div>
+      <input class="search" id="searchInput" type="text"
+             placeholder="Search symbol / industry…" oninput="filterRows()"/>
+    </div>
+  </div>
+  <div class="tbl-outer">
+    <table id="mainTable">
+      <thead><tr>
+        <th class="star-th" title="Watchlist"></th>
+        <th data-col="sym"    data-type="str">Symbol<i class="si"></i></th>
+        <th class="c" data-col="band" data-type="str" title="Circuit price band — the max % a stock can move from previous close">Band<i class="si"></i></th>
+        <th class="r" data-col="close"  data-type="num">Close ₹<i class="si"></i></th>
+        <th class="r" data-col="ema10"  data-type="num">EMA10 ₹<i class="si"></i></th>
+        <th class="r" data-col="rs"     data-type="num">RS %ile<i class="si"></i></th>
+        <th class="r" data-col="tmc"    data-type="num">Mkt Cap<i class="si"></i></th>
+        <th class="r" data-col="tv"     data-type="num">Traded Val<i class="si"></i></th>
+        <th class="r" data-col="tvpct"  data-type="num">TV % MC<i class="si"></i></th>
+        <th          data-col="indgrp" data-type="str">Industry Group<i class="si"></i></th>
+        <th          data-col="ind"    data-type="str">Industry<i class="si"></i></th>
+      </tr></thead>
+      <tbody id="tableBody">
+        <tr class="srow is-new"
+          data-sym="Artemis ADR Marketplace" data-band="—" data-close="101.55" data-rs="99.72"
+          data-ema10="101.55" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Food Products" data-ind="Other Food Products">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A543286" target="_blank" rel="noopener">Artemis ADR Marketplace <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹101.55</td>
+          <td class="r"><span class="pill pill-green">₹101.55</span></td>
+          <td class="r"><span class="pill pill-amber">99.7</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Food Products</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Other Food Products</td>
+        </tr>
+        <tr class="srow is-new"
+          data-sym="Amrapali Capital" data-band="—" data-close="66.3" data-rs="99.44"
+          data-ema10="61.02" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Finance" data-ind="Non Banking Financial Company (NBFC)">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A536737" target="_blank" rel="noopener">Amrapali Capital <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹66.30</td>
+          <td class="r"><span class="pill pill-green">₹61.02</span></td>
+          <td class="r"><span class="pill pill-amber">99.4</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Finance</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Non Banking Financial Company (NBFC)</td>
+        </tr>
+        <tr class="srow"
+          data-sym="VILINBIO" data-band="5" data-close="60.0" data-rs="98.88"
+          data-ema10="56.26" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Pharmaceuticals & Biotechnology" data-ind="Pharmaceuticals">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=NSE%3AVILINBIO" target="_blank" rel="noopener">VILINBIO</a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">5</td>
+          <td class="r" style="font-family:var(--mono)">₹60.00</td>
+          <td class="r"><span class="pill pill-green">₹56.26</span></td>
+          <td class="r"><span class="pill pill-amber">98.9</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Pharmaceuticals & Biotechnology</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Pharmaceuticals</td>
+        </tr>
+        <tr class="srow"
+          data-sym="VIVO" data-band="5" data-close="151.05" data-rs="98.31"
+          data-ema10="151.63" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Telecom - Services" data-ind="Other Telecom Services">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=NSE%3AVIVO" target="_blank" rel="noopener">VIVO</a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">5</td>
+          <td class="r" style="font-family:var(--mono)">₹151.05</td>
+          <td class="r"><span class="pill pill-red">₹151.63</span></td>
+          <td class="r"><span class="pill pill-amber">98.3</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Telecom - Services</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Other Telecom Services</td>
+        </tr>
+        <tr class="srow is-new"
+          data-sym="City Crops Agro" data-band="—" data-close="43.22" data-rs="98.03"
+          data-ema10="41.0" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Agricultural Food & other Products" data-ind="Other Agricultural Products">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A544000" target="_blank" rel="noopener">City Crops Agro <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹43.22</td>
+          <td class="r"><span class="pill pill-green">₹41.00</span></td>
+          <td class="r"><span class="pill pill-amber">98.0</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Agricultural Food & other Products</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Other Agricultural Products</td>
+        </tr>
+        <tr class="srow is-new"
+          data-sym="Sungold Media" data-band="—" data-close="21.05" data-rs="97.47"
+          data-ema10="20.23" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Media" data-ind="Advertising & Media Agencies">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A541799" target="_blank" rel="noopener">Sungold Media <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹21.05</td>
+          <td class="r"><span class="pill pill-green">₹20.23</span></td>
+          <td class="r"><span class="pill pill-amber">97.5</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Media</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Advertising & Media Agencies</td>
+        </tr>
+        <tr class="srow is-new"
+          data-sym="Focus Business" data-band="—" data-close="230.0" data-rs="96.63"
+          data-ema10="222.7" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="IT - Software" data-ind="Computers - Software & Consulting">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A543312" target="_blank" rel="noopener">Focus Business <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹230.00</td>
+          <td class="r"><span class="pill pill-green">₹222.70</span></td>
+          <td class="r"><span class="pill pill-amber">96.6</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">IT - Software</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Computers - Software & Consulting</td>
+        </tr>
+        <tr class="srow"
+          data-sym="SEL" data-band="5" data-close="365.0" data-rs="94.94"
+          data-ema10="338.88" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Electrical Equipment" data-ind="Other Electrical Equipment">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=NSE%3ASEL" target="_blank" rel="noopener">SEL</a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">5</td>
+          <td class="r" style="font-family:var(--mono)">₹365.00</td>
+          <td class="r"><span class="pill pill-green">₹338.88</span></td>
+          <td class="r"><span class="pill pill-amber">94.9</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Electrical Equipment</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Other Electrical Equipment</td>
+        </tr>
+        <tr class="srow"
+          data-sym="SABAR" data-band="2" data-close="9.5" data-rs="94.1"
+          data-ema10="9.24" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Industrial Products" data-ind="Packaging">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=NSE%3ASABAR" target="_blank" rel="noopener">SABAR</a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">2</td>
+          <td class="r" style="font-family:var(--mono)">₹9.50</td>
+          <td class="r"><span class="pill pill-green">₹9.24</span></td>
+          <td class="r"><span class="pill pill-amber">94.1</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Industrial Products</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Packaging</td>
+        </tr>
+        <tr class="srow is-new"
+          data-sym="Benchmark Comp." data-band="—" data-close="42.25" data-rs="93.82"
+          data-ema10="44.22" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="IT - Services" data-ind="IT Enabled Services">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A544052" target="_blank" rel="noopener">Benchmark Comp. <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹42.25</td>
+          <td class="r"><span class="pill pill-red">₹44.22</span></td>
+          <td class="r"><span class="pill pill-amber">93.8</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">IT - Services</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">IT Enabled Services</td>
+        </tr>
+        <tr class="srow is-new"
+          data-sym="Eighty Jewellers" data-band="—" data-close="42.0" data-rs="93.54"
+          data-ema10="41.07" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Consumer Durables" data-ind="Gems, Jewellery And Watches">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A543518" target="_blank" rel="noopener">Eighty Jewellers <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹42.00</td>
+          <td class="r"><span class="pill pill-green">₹41.07</span></td>
+          <td class="r"><span class="pill pill-amber">93.5</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Consumer Durables</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Gems, Jewellery And Watches</td>
+        </tr>
+        <tr class="srow"
+          data-sym="VELS" data-band="5" data-close="73.0" data-rs="92.7"
+          data-ema10="73.0" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Entertainment" data-ind="Film Production, Distribution & Exhibition">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=NSE%3AVELS" target="_blank" rel="noopener">VELS</a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">5</td>
+          <td class="r" style="font-family:var(--mono)">₹73.00</td>
+          <td class="r"><span class="pill pill-green">₹73.00</span></td>
+          <td class="r"><span class="pill pill-amber">92.7</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Entertainment</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Film Production, Distribution & Exhibition</td>
+        </tr>
+        <tr class="srow"
+          data-sym="CLSL" data-band="5" data-close="78.8" data-rs="91.29"
+          data-ema10="82.22" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Fertilizers & Agrochemicals" data-ind="Pesticides & Agrochemicals">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=NSE%3ACLSL" target="_blank" rel="noopener">CLSL</a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">5</td>
+          <td class="r" style="font-family:var(--mono)">₹78.80</td>
+          <td class="r"><span class="pill pill-red">₹82.22</span></td>
+          <td class="r"><span class="pill pill-amber">91.3</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Fertilizers & Agrochemicals</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Pesticides & Agrochemicals</td>
+        </tr>
+        <tr class="srow is-new"
+          data-sym="Koura Fine Diamo" data-band="—" data-close="50.5" data-rs="91.01"
+          data-ema10="49.54" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Consumer Durables" data-ind="Gems, Jewellery And Watches">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A544139" target="_blank" rel="noopener">Koura Fine Diamo <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹50.50</td>
+          <td class="r"><span class="pill pill-green">₹49.54</span></td>
+          <td class="r"><span class="pill pill-amber">91.0</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Consumer Durables</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Gems, Jewellery And Watches</td>
+        </tr>
+        <tr class="srow"
+          data-sym="VERA" data-band="5" data-close="86.25" data-rs="90.17"
+          data-ema10="86.16" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Textiles & Apparels" data-ind="Other Textile Products">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=NSE%3AVERA" target="_blank" rel="noopener">VERA</a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">5</td>
+          <td class="r" style="font-family:var(--mono)">₹86.25</td>
+          <td class="r"><span class="pill pill-green">₹86.16</span></td>
+          <td class="r"><span class="pill pill-amber">90.2</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Textiles & Apparels</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Other Textile Products</td>
+        </tr>
+        <tr class="srow"
+          data-sym="SERVICE" data-band="5" data-close="65.75" data-rs="89.33"
+          data-ema10="68.18" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Commercial Services & Supplies" data-ind="Diversified Commercial Services">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=NSE%3ASERVICE" target="_blank" rel="noopener">SERVICE</a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">5</td>
+          <td class="r" style="font-family:var(--mono)">₹65.75</td>
+          <td class="r"><span class="pill pill-red">₹68.18</span></td>
+          <td class="r"><span class="pill pill-amber">89.3</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Commercial Services & Supplies</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Diversified Commercial Services</td>
+        </tr>
+        <tr class="srow is-new"
+          data-sym="TGIF Agribusines" data-band="—" data-close="110.0" data-rs="88.76"
+          data-ema10="104.74" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Agricultural Food & other Products" data-ind="Other Agricultural Products">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A544175" target="_blank" rel="noopener">TGIF Agribusines <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹110.00</td>
+          <td class="r"><span class="pill pill-green">₹104.74</span></td>
+          <td class="r"><span class="pill pill-amber">88.8</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Agricultural Food & other Products</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Other Agricultural Products</td>
+        </tr>
+        <tr class="srow is-new"
+          data-sym="Patdiam Jeweller" data-band="—" data-close="325.0" data-rs="88.2"
+          data-ema10="324.26" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Consumer Durables" data-ind="Gems, Jewellery And Watches">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A539401" target="_blank" rel="noopener">Patdiam Jeweller <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹325.00</td>
+          <td class="r"><span class="pill pill-green">₹324.26</span></td>
+          <td class="r"><span class="pill pill-amber">88.2</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Consumer Durables</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Gems, Jewellery And Watches</td>
+        </tr>
+        <tr class="srow is-new"
+          data-sym="Jay Kailash" data-band="—" data-close="61.75" data-rs="82.58"
+          data-ema10="66.18" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Food Products" data-ind="Packaged Foods">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A544160" target="_blank" rel="noopener">Jay Kailash <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹61.75</td>
+          <td class="r"><span class="pill pill-red">₹66.18</span></td>
+          <td class="r"><span class="pill pill-amber">82.6</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Food Products</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Packaged Foods</td>
+        </tr>
+        <tr class="srow is-new"
+          data-sym="DAPS Advertising" data-band="—" data-close="24.49" data-rs="78.93"
+          data-ema10="24.39" data-tmc="null"
+          data-tv="null" data-tvpct="null"
+          data-indgrp="Media" data-ind="Advertising & Media Agencies">
+          <td class="star-td"><button type="button" class="wl-star" onclick="toggleStar(this)" title="Add to Watchlist">☆</button></td>
+          <td>
+            <a class="sym-tag" style="background:var(--indigo-lt);border-color:var(--indigo-mid);color:var(--indigo)"
+               href="https://www.tradingview.com/chart/?symbol=BSE%3A543651" target="_blank" rel="noopener">DAPS Advertising <span class="sym-new-star">✦ NEW</span></a>
+          </td>
+          <td class="c" style="font-family:var(--mono);color:var(--muted);font-size:.74rem" title="Circuit price band">—</td>
+          <td class="r" style="font-family:var(--mono)">₹24.49</td>
+          <td class="r"><span class="pill pill-green">₹24.39</span></td>
+          <td class="r"><span class="pill pill-amber">78.9</span></td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--muted);font-size:.77rem">N/A</td>
+          <td class="r" style="font-family:var(--mono);color:var(--subtle);font-size:.73rem">N/A</td>
+          <td style="color:var(--muted);font-size:.78rem;max-width:150px;overflow:hidden;text-overflow:ellipsis">Media</td>
+          <td style="color:var(--subtle);font-size:.74rem;max-width:130px;overflow:hidden;text-overflow:ellipsis">Advertising & Media Agencies</td>
+        </tr></tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="table-sec" id="newStocksSection" style="padding-top:1.1rem;">
+  <div class="tbl-head">
+    <div>
+      <span class="tbl-title">✦ New Stocks <span style="color:var(--new-text)">(Last 10 Days)</span></span>
+      <span class="tbl-count tbl-title">[<span id="newStocksCount">0</span>]</span>
+    </div>
+  </div>
+  <div class="tbl-outer">
+    <table id="newStocksTable">
+      <thead id="newStocksHead"></thead>
+      <tbody id="newStocksBody"></tbody>
+    </table>
+  </div>
+</div>
+
+
+<footer>Data: NSE India &amp; Yahoo Finance · Generated 18 Sep 2026 · For informational purposes only · Not financial advice</footer>
+
+<script>
+const labels    = ["Artemis ADR Marketplace","Amrapali Capital","VILINBIO","VIVO","City Crops Agro","Sungold Media","Focus Business","SEL","SABAR","Benchmark Comp.","Eighty Jewellers","VELS","CLSL","Koura Fine Diamo","VERA","SERVICE","TGIF Agribusines","Patdiam Jeweller","Jay Kailash","DAPS Advertising"];
+const totalData = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
+
+Chart.defaults.font.family = "'Outfit', sans-serif";
+Chart.defaults.font.size   = 11;
+Chart.defaults.color       = "#5a6282";
+
+new Chart(document.getElementById('barChart'), {
+  type: 'bar',
+  data: { labels, datasets: [{
+    label: 'Mkt Cap (₹ Cr)', data: totalData,
+    backgroundColor: 'rgba(79,70,229,0.12)',
+    borderColor:     'rgba(79,70,229,0.45)',
+    borderWidth: 1, borderRadius: 3,
+  }]},
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#fff', borderColor: '#e2e6f0', borderWidth: 1,
+        titleColor: '#0f1629', bodyColor: '#5a6282', padding: 10,
+        callbacks: { label: c => ` ₹${(c.parsed.y||0).toLocaleString('en-IN')} Cr` },
+      },
+    },
+    scales: {
+      x: { ticks: { color: '#8b93b5', maxTicksLimit: 30 }, grid: { color: '#f1f3f9' } },
+      y: { ticks: { color: '#8b93b5', callback: v => '₹' + Number(v).toLocaleString('en-IN') },
+            grid: { color: '#f1f3f9' } },
+    },
+  },
+});
+
+function filterRows() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('#tableBody .srow').forEach(r => {
+    const sym    = (r.dataset.sym    || '').toLowerCase();
+    const indgrp = (r.dataset.indgrp || '').toLowerCase();
+    const ind    = (r.dataset.ind    || '').toLowerCase();
+    r.style.display = (sym.includes(q)||indgrp.includes(q)||ind.includes(q)) ? '' : 'none';
+  });
+}
+
+
+let sortCol = null, sortAsc = true;
+document.querySelectorAll('#mainTable thead th').forEach(th => {
+  th.addEventListener('click', () => {
+    const col  = th.dataset.col;
+    const type = th.dataset.type;
+    if (!col) return;
+    sortAsc = (sortCol === col) ? !sortAsc : true;
+    sortCol = col;
+    document.querySelectorAll('#mainTable thead th')
+      .forEach(h => h.classList.remove('sort-asc','sort-desc'));
+    th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
+    const tbody = document.getElementById('tableBody');
+    Array.from(tbody.querySelectorAll('.srow'))
+      .sort((a, b) => {
+        let av = a.dataset[col], bv = b.dataset[col];
+        if (type === 'num') {
+          av = parseFloat(av); bv = parseFloat(bv);
+          if (isNaN(av)) av = -Infinity;
+          if (isNaN(bv)) bv = -Infinity;
+          return sortAsc ? av - bv : bv - av;
+        }
+        return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+      })
+      .forEach(r => tbody.appendChild(r));
+  });
+});
+
+
+(function() {
+  var mainTable  = document.getElementById('mainTable');
+  var newSection = document.getElementById('newStocksSection');
+  var newHead    = document.getElementById('newStocksHead');
+  var newBody    = document.getElementById('newStocksBody');
+  var newCount   = document.getElementById('newStocksCount');
+  if (!mainTable || !newSection || !newHead || !newBody) return;
+
+  var headRow = mainTable.querySelector('thead tr');
+  var newRows = Array.prototype.slice.call(mainTable.querySelectorAll('tbody tr.is-new'));
+
+  if (!headRow || newRows.length === 0) {
+    newSection.style.display = 'none';
+    return;
+  }
+
+  newHead.innerHTML = headRow.outerHTML;
+  newRows.forEach(function(row) {
+    newBody.appendChild(row.cloneNode(true));
+  });
+  if (newCount) newCount.textContent = newRows.length;
+})();
+
+function scrollToNewStocks(e) {
+  if (e) e.preventDefault();
+  var el = document.getElementById('newStocksSection');
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+
+function _tvSymbolList() {
+  return Array.from(document.querySelectorAll('#tableBody .srow'))
+    .filter(r => r.style.display !== 'none')
+    .map(r => (r.dataset.sym || '').toUpperCase())
+    .filter(s => s !== '');
+}
+
+function downloadTVList() {
+  const syms = _tvSymbolList();
+  if (!syms.length) { alert('No symbols to export.'); return; }
+  const blob = new Blob([syms.join(',')], { type: 'text/plain' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = (document.getElementById('tvFileName') || {}).value
+               || 'tradingview_watchlist.txt';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function copyTVList() {
+  const syms = _tvSymbolList();
+  if (!syms.length) { alert('No symbols to copy.'); return; }
+  const text = syms.join(',');
+  const btn  = document.getElementById('tvCopyBtn');
+  const done = () => {
+    if (!btn) return;
+    const orig = btn.dataset.origLabel || btn.textContent;
+    btn.dataset.origLabel = orig;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = orig; }, 1600);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(() => _tvFallbackCopy(text, done));
+  } else {
+    _tvFallbackCopy(text, done);
+  }
+}
+
+function _tvFallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) { alert('Copy failed — please copy manually.'); }
+  ta.remove();
+}
+
+</script>
+</body></html>
