@@ -1,0 +1,378 @@
+diff --git a/docs/index.html b/docs/index.html
+index 0719450..23f61df 100644
+--- a/docs/index.html
++++ b/docs/index.html
+@@ -115,6 +115,31 @@
+   .close-val{font-family:var(--mono);font-size:.77rem;color:var(--muted);margin-bottom:.7rem;}
+   .close-val strong{color:var(--text);}
+   .sentiment-legend{font-family:var(--mono);font-size:.67rem;color:var(--subtle);margin-top:.55rem;}
++
++  /* ── Horizontal scroll wrapper so history tables don't break mobile layout ── */
++  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:0 0 10px 10px;}
++  table.history-table{min-width:560px;}
++
++  /* ── Mobile responsiveness ── */
++  @media (max-width: 768px){
++    header{padding:1.4rem 1.2rem 1.2rem;}
++    .container{margin:1.4rem auto;padding:0 1rem;}
++    .sentiment-section{padding:0 1rem;}
++    .sentiment-grid{grid-template-columns:1fr;}
++    .month-accordion{padding:.75rem .9rem;gap:.5rem;font-size:.85rem;}
++    .month-acc-meta{display:none;}
++    .history-table th, .history-table td{padding:.6rem .75rem;font-size:.78rem;}
++    .btn-link{padding:.24rem .65rem;font-size:.66rem;}
++    h2.section-title{font-size:.95rem;}
++  }
++  @media (max-width: 480px){
++    html{font-size:13px;}
++    header h1{font-size:1.4rem;}
++    header p{font-size:.72rem;}
++    .sentiment-card{padding:1rem 1.1rem;}
++    .ema-row{gap:.45rem;}
++    .ema-pill{font-size:.68rem;padding:.26rem .65rem;}
++  }
+   </style>
+ </head>
+ <body>
+@@ -171,6 +196,7 @@
+       <span class="month-acc-chevron">&#8963;</span>
+     </button>
+     <div class="month-body open">
++      <div class="tbl-wrap">
+       <table class="history-table">
+         <thead>
+           <tr>
+@@ -185,109 +211,110 @@
+         <tr>
+           <td class="date-cell">19 Jun 2026</td>
+           <td><a href="2026-06-19/dashboard_20260619.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-19/elite_dashboard_20260619.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-19/elite_dashboard_20260619.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-19/volume_dashboard_20260619.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-19/rocket_dashboard_20260619.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">18 Jun 2026</td>
+           <td><a href="2026-06-18/dashboard_20260618.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-18/elite_dashboard_20260618.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-18/elite_dashboard_20260618.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-18/volume_dashboard_20260618.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-18/rocket_dashboard_20260618.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">17 Jun 2026</td>
+           <td><a href="2026-06-17/dashboard_20260617.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-17/elite_dashboard_20260617.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-17/elite_dashboard_20260617.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-17/volume_dashboard_20260617.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-17/rocket_dashboard_20260617.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">16 Jun 2026</td>
+           <td><a href="2026-06-16/dashboard_20260616.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-16/elite_dashboard_20260616.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-16/elite_dashboard_20260616.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-16/volume_dashboard_20260616.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-16/rocket_dashboard_20260616.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">15 Jun 2026</td>
+           <td><a href="2026-06-15/dashboard_20260615.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-15/elite_dashboard_20260615.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-15/elite_dashboard_20260615.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-15/volume_dashboard_20260615.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-15/rocket_dashboard_20260615.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">12 Jun 2026</td>
+           <td><a href="2026-06-12/dashboard_20260612.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-12/elite_dashboard_20260612.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-12/elite_dashboard_20260612.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-12/volume_dashboard_20260612.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-12/rocket_dashboard_20260612.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">11 Jun 2026</td>
+           <td><a href="2026-06-11/dashboard_20260611.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-11/elite_dashboard_20260611.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-11/elite_dashboard_20260611.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-11/volume_dashboard_20260611.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-11/rocket_dashboard_20260611.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">10 Jun 2026</td>
+           <td><a href="2026-06-10/dashboard_20260610.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-10/elite_dashboard_20260610.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-10/elite_dashboard_20260610.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-10/volume_dashboard_20260610.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-10/rocket_dashboard_20260610.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">09 Jun 2026</td>
+           <td><a href="2026-06-09/dashboard_20260609.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-09/elite_dashboard_20260609.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-09/elite_dashboard_20260609.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-09/volume_dashboard_20260609.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-09/rocket_dashboard_20260609.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">08 Jun 2026</td>
+           <td><a href="2026-06-08/dashboard_20260608.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-08/elite_dashboard_20260608.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-08/elite_dashboard_20260608.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-08/volume_dashboard_20260608.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-08/rocket_dashboard_20260608.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">05 Jun 2026</td>
+           <td><a href="2026-06-05/dashboard_20260605.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-05/elite_dashboard_20260605.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-05/elite_dashboard_20260605.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-05/volume_dashboard_20260605.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-05/rocket_dashboard_20260605.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">04 Jun 2026</td>
+           <td><a href="2026-06-04/dashboard_20260604.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-04/elite_dashboard_20260604.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-04/elite_dashboard_20260604.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-04/volume_dashboard_20260604.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-04/rocket_dashboard_20260604.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">03 Jun 2026</td>
+           <td><a href="2026-06-03/dashboard_20260603.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-03/elite_dashboard_20260603.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-03/elite_dashboard_20260603.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-03/volume_dashboard_20260603.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-03/rocket_dashboard_20260603.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">02 Jun 2026</td>
+           <td><a href="2026-06-02/dashboard_20260602.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-02/elite_dashboard_20260602.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-02/elite_dashboard_20260602.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-02/volume_dashboard_20260602.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-02/rocket_dashboard_20260602.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">01 Jun 2026</td>
+           <td><a href="2026-06-01/dashboard_20260601.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-06-01/elite_dashboard_20260601.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-06-01/elite_dashboard_20260601.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-06-01/volume_dashboard_20260601.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-06-01/rocket_dashboard_20260601.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr></tbody>
+       </table>
++      </div>
+     </div>
+   </div>
+   <div class="month-group">
+@@ -297,6 +324,7 @@
+       <span class="month-acc-chevron">&#8963;</span>
+     </button>
+     <div class="month-body open">
++      <div class="tbl-wrap">
+       <table class="history-table">
+         <thead>
+           <tr>
+@@ -311,60 +339,61 @@
+         <tr>
+           <td class="date-cell">31 May 2026</td>
+           <td><a href="2026-05-31/dashboard_20260531.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-05-31/elite_dashboard_20260531.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-05-31/elite_dashboard_20260531.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-05-31/volume_dashboard_20260531.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-05-31/rocket_dashboard_20260531.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">30 May 2026</td>
+           <td><a href="2026-05-30/dashboard_20260530.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-05-30/elite_dashboard_20260530.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-05-30/elite_dashboard_20260530.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-05-30/volume_dashboard_20260530.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-05-30/rocket_dashboard_20260530.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">29 May 2026</td>
+           <td><a href="2026-05-29/dashboard_20260529.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-05-29/elite_dashboard_20260529.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-05-29/elite_dashboard_20260529.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-05-29/volume_dashboard_20260529.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-05-29/rocket_dashboard_20260529.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">28 May 2026</td>
+           <td><a href="2026-05-28/dashboard_20260528.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-05-28/elite_dashboard_20260528.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-05-28/elite_dashboard_20260528.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-05-28/volume_dashboard_20260528.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-05-28/rocket_dashboard_20260528.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">27 May 2026</td>
+           <td><a href="2026-05-27/dashboard_20260527.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-05-27/elite_dashboard_20260527.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-05-27/elite_dashboard_20260527.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-05-27/volume_dashboard_20260527.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-05-27/rocket_dashboard_20260527.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">26 May 2026</td>
+           <td><a href="2026-05-26/dashboard_20260526.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-05-26/elite_dashboard_20260526.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-05-26/elite_dashboard_20260526.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-05-26/volume_dashboard_20260526.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-05-26/rocket_dashboard_20260526.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">25 May 2026</td>
+           <td><a href="2026-05-25/dashboard_20260525.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-05-25/elite_dashboard_20260525.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-05-25/elite_dashboard_20260525.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-05-25/volume_dashboard_20260525.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-05-25/rocket_dashboard_20260525.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr>
+         <tr>
+           <td class="date-cell">23 May 2026</td>
+           <td><a href="2026-05-23/dashboard_20260523.html" class="btn-link">📊 Momentum</a></td>
+-          <td><a href="/momentum-alpha-volume/2026-05-23/elite_dashboard_20260523.html"   class="btn-link green">⚡ Elite</a></td>
++          <td><a href="2026-05-23/elite_dashboard_20260523.html"   class="btn-link green">⚡ Elite</a></td>
+           <td><a href="2026-05-23/volume_dashboard_20260523.html" class="btn-link blue">🔵 Volume</a></td>
+           <td><a href="2026-05-23/rocket_dashboard_20260523.html" class="btn-link amber">🚀 Rocket</a></td>
+         </tr></tbody>
+       </table>
++      </div>
+     </div>
+   </div>
+ </div>
+diff --git a/scanner/dashboard.py b/scanner/dashboard.py
+index d100255..febf3aa 100644
+--- a/scanner/dashboard.py
++++ b/scanner/dashboard.py
+@@ -480,6 +480,49 @@ footer {
+   font-family: var(--mono);
+   letter-spacing: .04em;
+ }
++
++/* ── Horizontal scroll wrapper for tables on small screens ── */
++.tbl-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; }
++table { min-width: 640px; }
++
++/* ── Mobile responsiveness ── */
++@media (max-width: 768px) {
++  html { font-size: 13px; }
++
++  header {
++    padding: 1.1rem 1.1rem;
++    flex-direction: column;
++    align-items: stretch;
++  }
++  .date-pill { align-self: flex-start; margin-top: .6rem; }
++
++  .csv-bar { padding: .55rem 1.1rem; }
++  .csv-label { margin-left: 0; width: 100%; }
++
++  .charts-area { padding: .9rem 1.1rem; grid-template-columns: 1fr !important; }
++  .chart-wrap { height: 180px; }
++
++  .table-sec { padding: 0 1.1rem 2rem; }
++  .callout { padding: .6rem 1.1rem; }
++
++  .tbl-head { flex-direction: column; align-items: stretch; }
++  .controls { width: 100%; }
++  .search { width: 100%; }
++  .legend-row { width: 100%; }
++
++  .kpi-strip { grid-template-columns: repeat(2, 1fr); }
++  .kpi { padding: .85rem 1rem; border-bottom: 1px solid var(--border); }
++
++  th, td { padding: .55rem .7rem; }
++}
++
++@media (max-width: 480px) {
++  .kpi-strip { grid-template-columns: 1fr 1fr; }
++  header h1 { font-size: 1.25rem; }
++  .hdr-sub { font-size: .74rem; }
++  .badge-row { gap: .3rem; }
++  .hdr-badge { font-size: .6rem; padding: .18rem .6rem; }
++}
+ """
+ 
+ _TABLE_SORT_JS = """
+@@ -1420,6 +1463,14 @@ h1{{font-size:1.7rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.35rem}
+ .card a{{display:inline-flex;align-items:center;gap:.35rem;padding:.38rem .95rem;
+          font-family:var(--mono);font-size:.72rem;font-weight:500;border-radius:8px;
+          border:1px solid;text-decoration:none;transition:background .14s}}
++
++@media (max-width: 600px) {{
++  body{{padding:1.2rem}}
++  .topbar{{margin:-1.2rem -1.2rem 1.4rem}}
++  h1{{font-size:1.35rem}}
++  .grid{{grid-template-columns:1fr;gap:.85rem}}
++  .card{{padding:1.1rem 1.25rem}}
++}}
+ </style>
+ </head>
+ <body>
+diff --git a/scanner/main.py b/scanner/main.py
+index eb8e945..407cc26 100644
+--- a/scanner/main.py
++++ b/scanner/main.py
+@@ -290,7 +290,7 @@ def _update_index(today_str: str, out_dir: Path, n_passing: int, n_elite: int, s
+ 
+             slug         = d.name.replace("-", "")
+             passing_link = f"{d.name}/dashboard_{slug}.html"
+-            elite_link   = f"{base}/{d.name}/elite_dashboard_{slug}.html"
++            elite_link   = f"{d.name}/elite_dashboard_{slug}.html"
+ 
+             table_rows += f"""
+         <tr>
+@@ -309,6 +309,7 @@ def _update_index(today_str: str, out_dir: Path, n_passing: int, n_elite: int, s
+       <span class="month-acc-chevron">&#8963;</span>
+     </button>
+     <div class="month-body open">
++      <div class="tbl-wrap">
+       <table class="history-table">
+         <thead>
+           <tr>
+@@ -321,6 +322,7 @@ def _update_index(today_str: str, out_dir: Path, n_passing: int, n_elite: int, s
+         </thead>
+         <tbody>{table_rows}</tbody>
+       </table>
++      </div>
+     </div>
+   </div>"""
+ 
+@@ -444,6 +446,31 @@ def _update_index(today_str: str, out_dir: Path, n_passing: int, n_elite: int, s
+   .close-val{{font-family:var(--mono);font-size:.77rem;color:var(--muted);margin-bottom:.7rem;}}
+   .close-val strong{{color:var(--text);}}
+   .sentiment-legend{{font-family:var(--mono);font-size:.67rem;color:var(--subtle);margin-top:.55rem;}}
++
++  /* ── Horizontal scroll wrapper so history tables don't break mobile layout ── */
++  .tbl-wrap{{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:0 0 10px 10px;}}
++  table.history-table{{min-width:560px;}}
++
++  /* ── Mobile responsiveness ── */
++  @media (max-width: 768px){{
++    header{{padding:1.4rem 1.2rem 1.2rem;}}
++    .container{{margin:1.4rem auto;padding:0 1rem;}}
++    .sentiment-section{{padding:0 1rem;}}
++    .sentiment-grid{{grid-template-columns:1fr;}}
++    .month-accordion{{padding:.75rem .9rem;gap:.5rem;font-size:.85rem;}}
++    .month-acc-meta{{display:none;}}
++    .history-table th, .history-table td{{padding:.6rem .75rem;font-size:.78rem;}}
++    .btn-link{{padding:.24rem .65rem;font-size:.66rem;}}
++    h2.section-title{{font-size:.95rem;}}
++  }}
++  @media (max-width: 480px){{
++    html{{font-size:13px;}}
++    header h1{{font-size:1.4rem;}}
++    header p{{font-size:.72rem;}}
++    .sentiment-card{{padding:1rem 1.1rem;}}
++    .ema-row{{gap:.45rem;}}
++    .ema-pill{{font-size:.68rem;padding:.26rem .65rem;}}
++  }}
+   </style>
+ </head>
+ <body>
