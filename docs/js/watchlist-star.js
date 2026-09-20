@@ -14,7 +14,7 @@
 // refreshes on a schedule, so a starred stock's current price keeps
 // updating live exactly like an Open Position.
 
-import { auth, onAuthStateChanged } from "./supabase.js";
+import { auth, onAuthStateChanged } from "./firebase.js";
 import {
   getLocalListsSorted,
   localSymbolLists,
